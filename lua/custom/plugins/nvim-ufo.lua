@@ -65,6 +65,8 @@ return {
     vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
     vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
 
+    vim.keymap.set('n', '-', '<cmd>foldclose<CR>', { desc = 'Close code fold' })
+    vim.keymap.set('n', '+', '<cmd>foldopen<CR>', { desc = 'Open code fold' })
     -- Set up LSP clients
     -- Option 2: nvim lsp as LSP client
     -- Tell the server the capability of foldingRange,
