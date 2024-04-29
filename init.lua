@@ -73,6 +73,19 @@ vim.opt.scrolloff = 10
 vim.opt.hlsearch = true
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
+-- use powershell as shell for command mode (:!)
+-- Set shell to powershell.exe
+vim.o.shell = 'powershell.exe'
+-- Set shell command flag
+vim.o.shellcmdflag = '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command '
+-- Set shell quote and extra quote (empty)
+vim.o.shellquote = ''
+vim.o.shellxquote = ''
+-- Set shell redirection
+vim.o.shellredir = '| Out-File -Encoding UTF8 %s'
+-- Set shell piping
+vim.o.shellpipe = '| Out-File -Encoding UTF8 %s'
+
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
