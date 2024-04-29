@@ -19,7 +19,9 @@ return {
         mappings = {
           ['\\'] = 'close_window',
         },
+        -- position = 'current',
       },
+      -- hijack_netrw_behavior = 'open_current',
     },
   },
 }
