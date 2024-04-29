@@ -500,6 +500,9 @@ require('lazy').setup({
         -- But for many setups, the LSP (`tsserver`) will work just fine
         -- tsserver = {},
         --
+        -- python_lsp_server = {
+        --
+        -- },
 
         lua_ls = {
           -- cmd = {...},
@@ -530,6 +533,7 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
+        -- 'python-lsp-server', -- Used to format Lua code
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -890,6 +894,10 @@ require('lazy').setup({
 -- CUSTOM CONFIGURATION
 
 vim.keymap.set('n', '<leader>pv', vim.cmd.Ex)
+
+vim.keymap.set('n', '<leader>rp', function()
+  vim.cmd '!python %'
+end, { desc = '[R]un the current [p]ython file.', noremap = true, silent = true })
 
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
