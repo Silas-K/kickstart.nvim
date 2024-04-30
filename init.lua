@@ -487,6 +487,7 @@ require('lazy').setup({
       --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
+
       local servers = {
         -- clangd = {},
         -- gopls = {},
@@ -503,6 +504,32 @@ require('lazy').setup({
         -- python_lsp_server = {
         --
         -- },
+        powershell_es = {
+          bundle_path = require('mason-registry').get_package('powershell-editor-services'):get_install_path(),
+          filetypes = { 'ps1', 'psm1', 'psd1' },
+          init_options = {
+            enableProfileLoading = false,
+          },
+          -- cmd = {
+          --   'pwsh',
+          --   '-NoLogo',
+          --   '-NoProfile',
+          --   '-Command',
+          --   startpath,
+          --   -- '-BundledModulesPath ' .. path,
+          --   -- '-LogPath .\\logs',
+          --   -- '-SessionDetailsPath .\\session.json',
+          --   -- '-FeatureFlags @()',
+          --   -- '-AdditionalModules @()',
+          --   -- "-HostName 'My Client'",
+          --   -- "-HostProfileId 'myclient'",
+          --   -- '-HostVersion 1.0.0',
+          --   -- '-LogLevel Diagnostic',
+          --   -- '~/AppData/Local/nvim-data/mason/packages/powershell-editor-services/PowerShellEditorServices/Start-EditorServices.ps1',
+          -- },
+          -- bundle_path = '~/AppData/Local/nvim-data/mason/packages/powershell-editor-services',
+          -- shell = 'powershell.exe',
+        },
 
         lua_ls = {
           -- cmd = {...},
