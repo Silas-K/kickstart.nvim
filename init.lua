@@ -75,16 +75,23 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- use powershell as shell for command mode (:!)
 -- Set shell to powershell.exe
-vim.o.shell = 'powershell.exe'
--- Set shell command flag
-vim.o.shellcmdflag = '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command '
--- Set shell quote and extra quote (empty)
-vim.o.shellquote = ''
-vim.o.shellxquote = ''
--- Set shell redirection
-vim.o.shellredir = '| Out-File -Encoding UTF8 %s'
--- Set shell piping
-vim.o.shellpipe = '| Out-File -Encoding UTF8 %s'
+-- vim.o.shell = 'powershell.exe'
+-- -- Set shell command flag
+-- vim.o.shellcmdflag = '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command '
+-- -- Set shell quote and extra quote (empty)
+-- vim.o.shellquote = ''
+-- vim.o.shellxquote = ''
+-- -- Set shell redirection
+-- vim.o.shellredir = '| Out-File -Encoding UTF8 %s'
+-- -- -- Set shell piping
+-- vim.o.shellpipe = '| Out-File -Encoding UTF8 %s'
+vim.opt.shell = 'pwsh'
+vim.opt.shellcmdflag =
+  '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;$PSStyle.OutputRendering = [System.Management.Automation.OutputRendering]::PlainText;'
+vim.opt.shellredir = '-RedirectStandardOutput %s -NoNewWindow -Wait'
+vim.opt.shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
+vim.opt.shellquote = ''
+vim.opt.shellxquote = ''
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
