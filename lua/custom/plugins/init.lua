@@ -70,4 +70,14 @@ return {
   --   config = true,
   --   event = { 'WinNew' },
   -- },
+
+  -- {
+  --   'jmederosalvarado/roslyn.nvim',
+  --   opts = {
+  --     dotnet_cmd = 'dotnet', -- this is the default
+  --     roslyn_version = '4.8.0-3.23475.7', -- this is the default
+  --     -- on_attach = on_attach,
+  --     -- capabilities = capabilities,
+  --   },
+  -- },
 }
