@@ -138,36 +138,13 @@ end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
 -- [[ Configure and install plugins ]]
---
---  To check the current status of your plugins, run
---    :Lazy
---
---  You can press `?` in this menu for help. Use `:q` to close the window
---
---  To update plugins you can run
---    :Lazy update
---
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
-  -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
-
-  -- NOTE: Plugins can also be added by using a table,
-  -- with the first argument being the link and the following
-  -- keys can be used to configure plugin behavior/loading/etc.
-  --
-  -- Use `opts = {}` to force a plugin to be loaded.
-  --
-  --  This is equivalent to:
-  --    require('Comment').setup({})
 
   -- "gc" to comment visual regions/lines
   { 'numToStr/Comment.nvim', opts = {} },
 
-  -- Here is a more advanced example where we pass configuration
-  -- options to `gitsigns.nvim`. This is equivalent to the following Lua:
-  --    require('gitsigns').setup({ ... })
-  --
   -- See `:help gitsigns` to understand what the configuration keys do
   { -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
@@ -341,7 +318,6 @@ require('lazy').setup({
       'WhoIsSethDaniel/mason-tool-installer.nvim',
 
       -- Useful status updates for LSP.
-      -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
       { 'j-hui/fidget.nvim', opts = {} },
 
       -- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
@@ -349,36 +325,6 @@ require('lazy').setup({
       { 'folke/neodev.nvim', opts = {} },
     },
     config = function()
-      -- Brief aside: **What is LSP?**
-      --
-      -- LSP is an initialism you've probably heard, but might not understand what it is.
-      --
-      -- LSP stands for Language Server Protocol. It's a protocol that helps editors
-      -- and language tooling communicate in a standardized fashion.
-      --
-      -- In general, you have a "server" which is some tool built to understand a particular
-      -- language (such as `gopls`, `lua_ls`, `rust_analyzer`, etc.). These Language Servers
-      -- (sometimes called LSP servers, but that's kind of like ATM Machine) are standalone
-      -- processes that communicate with some "client" - in this case, Neovim!
-      --
-      -- LSP provides Neovim with features like:
-      --  - Go to definition
-      --  - Find references
-      --  - Autocompletion
-      --  - Symbol Search
-      --  - and more!
-      --
-      -- Thus, Language Servers are external tools that must be installed separately from
-      -- Neovim. This is where `mason` and related plugins come into play.
-      --
-      -- If you're wondering about lsp vs treesitter, you can check out the wonderfully
-      -- and elegantly composed help section, `:help lsp-vs-treesitter`
-
-      --  This function gets run when an LSP attaches to a particular buffer.
-      --    That is to say, every time a new file is opened that is associated with
-      --    an lsp (for example, opening `main.rs` is associated with `rust_analyzer`) this
-      --    function will be executed to configure the current buffer
-
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
         callback = function(event)
@@ -496,46 +442,42 @@ require('lazy').setup({
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
 
       local servers = {
-        -- clangd = {},
-        -- gopls = {},
-        -- pyright = {},
-        -- rust_analyzer = {},
-        -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
-        --
-        -- Some languages (like typescript) have entire language plugins that can be useful:
-        --    https://github.com/pmizio/typescript-tools.nvim
-        --
-        -- But for many setups, the LSP (`tsserver`) will work just fine
-        -- tsserver = {},
-        --
-        -- python_lsp_server = {
-        --
+        clangd = {},
+        -- pylsp = {},
+        pyright = {
+          settings = {
+            pyright = {
+              -- Using Ruff's import organizer
+              disableOrganizeImports = true,
+              disableTaggedHints = true,
+            },
+            python = {
+              analysis = {
+                -- Ignore all files for analysis to exclusively use Ruff for linting
+                ignore = { '*' },
+              },
+            },
+          },
+        },
+        ruff_lsp = {},
+        -- ruff = {},
+        -- ruff_lsp = {
+        --   on_attach = function(client, bufnr)
+        --     if client.name == 'ruff_lsp' then
+        --       -- Disable hover in favor of Pyright
+        --       client.server_capabilities.hoverProvider = false
+        --     end
+        --   end,
         -- },
+        omnisharp = {
+          -- filetypes = { 'cs', 'vb', 'razor', 'cshtml' },
+        },
         powershell_es = {
           bundle_path = require('mason-registry').get_package('powershell-editor-services'):get_install_path(),
           filetypes = { 'ps1', 'psm1', 'psd1' },
           init_options = {
             enableProfileLoading = false,
           },
-          -- cmd = {
-          --   'pwsh',
-          --   '-NoLogo',
-          --   '-NoProfile',
-          --   '-Command',
-          --   startpath,
-          --   -- '-BundledModulesPath ' .. path,
-          --   -- '-LogPath .\\logs',
-          --   -- '-SessionDetailsPath .\\session.json',
-          --   -- '-FeatureFlags @()',
-          --   -- '-AdditionalModules @()',
-          --   -- "-HostName 'My Client'",
-          --   -- "-HostProfileId 'myclient'",
-          --   -- '-HostVersion 1.0.0',
-          --   -- '-LogLevel Diagnostic',
-          --   -- '~/AppData/Local/nvim-data/mason/packages/powershell-editor-services/PowerShellEditorServices/Start-EditorServices.ps1',
-          -- },
-          -- bundle_path = '~/AppData/Local/nvim-data/mason/packages/powershell-editor-services',
-          -- shell = 'powershell.exe',
         },
 
         lua_ls = {
@@ -552,13 +494,18 @@ require('lazy').setup({
             },
           },
         },
+        -- gopls = {},
+        -- rust_analyzer = {},
+        -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
+        --
+        -- Some languages (like typescript) have entire language plugins that can be useful:
+        --    https://github.com/pmizio/typescript-tools.nvim
+        --
+        -- But for many setups, the LSP (`tsserver`) will work just fine
+        -- tsserver = {},
+        --
       }
 
-      -- Ensure the servers and tools above are installed
-      --  To check the current status of installed tools and/or manually install
-      --  other tools, you can run
-      --    :Mason
-      --
       --  You can press `g?` for help in this menu.
       require('mason').setup()
 
@@ -567,7 +514,6 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
-        -- 'python-lsp-server', -- Used to format Lua code
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -614,7 +560,8 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
+        -- python = { 'black' },
+        -- python = { 'isort', 'black' },
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
@@ -735,70 +682,16 @@ require('lazy').setup({
     end,
   },
 
-  { -- You can easily change to a different colorscheme.
-    -- Change the name of the colorscheme plugin below, and then
-    -- change the command in the config to whatever the name of that colorscheme is.
-    --
-    -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
+  {
     'folke/tokyonight.nvim',
     priority = 1000, -- Make sure to load this before all the other start plugins.
     init = function()
-      -- Load the colorscheme here.
-      -- Like many other themes, this one has different styles, and you could load
-      -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
       vim.cmd.colorscheme 'tokyonight-night'
 
       -- You can configure highlights by doing something like:
       vim.cmd.hi 'Comment gui=none'
     end,
   },
-  -- {
-  --   {
-  --     'catppuccin/nvim',
-  --     name = 'catppuccin',
-  --     priority = 1000,
-  --
-  --     init = function()
-  --       vim.cmd.colorscheme 'catppuccin'
-  --     end,
-  --   },
-  -- },
-
-  --{ -- You can easily change to a different colorscheme.
-  --	-- Change the name of the colorscheme plugin below, and then
-  --	-- change the command in the config to whatever the name of that colorscheme is.
-  --	--
-  --	-- If you want to see what colorschemes are already installed, you can use :Telescope colorscheme.
-  --	"tomasiser/vim-code-dark",
-  --	priority = 1000, -- Make sure to load this before all the other start plugins.
-  --	init = function()
-  --		-- Load the colorscheme here.
-  --		-- Like many other themes, this one has different styles, and you could load
-  --		-- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-  --		vim.cmd.colorscheme("codedark")
-
-  --		-- You can configure highlights by doing something like:
-  --		vim.cmd.hi("Comment gui=none")
-  --	end,
-  --},
-  -- NOTE: icons in file explorer (`nvim .`)
-  {
-    'prichrd/netrw.nvim',
-    opts = {
-      -- Put your configuration here, or leave the object empty to take the default
-      -- configuration.
-      icons = {
-        symlink = '', -- Symlink icon (directory and file)
-        directory = '', -- Directory icon
-        file = '', -- File icon
-      },
-      use_devicons = true, -- Uses nvim-web-devicons if true, otherwise use the file icon specified above
-      mappings = {}, -- Custom key mappings
-    },
-  },
-
-  -- NOTE: Basic syntax highlighting for .razor & .cshtml files
-  { 'jlcrochet/vim-razor' },
 
   -- NOTE: Show Borders around windows
   -- {
@@ -880,13 +773,7 @@ require('lazy').setup({
     end,
   },
 
-  -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
-  -- init.lua. If you want these files, they are in the repository, so you can just download them and
-  -- place them in the correct locations.
   -- NOTE: Next step on your Neovim journey: Add/Configure additional plugins for Kickstart
-  --
-  --  Here are some example plugins that I've included in the Kickstart repository.
-  --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
   require 'kickstart.plugins.debug',
   require 'kickstart.plugins.indent_line',
@@ -933,14 +820,15 @@ vim.keymap.set('n', '<leader>rp', function()
   vim.cmd '!python %'
 end, { desc = '[R]un the current [p]ython file.', noremap = true, silent = true })
 
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.expandtab = true
+-- vim.opt.tabstop = 4
+-- vim.opt.softtabstop = 4
+-- vim.opt.shiftwidth = 4
+-- vim.opt.expandtab = true
+--
+-- vim.opt.smartindent = true
 
-vim.opt.smartindent = true
---vim.cmd [[autocmd BufNewFile,BufRead *.cshtml set filetype=html.cshtml.razor]]
---vim.cmd [[autocmd BufNewFile,BufRead *.razor set filetype=html.cshtml.razor]]
+-- vim.cmd [[autocmd BufNewFile,BufRead *.cshtml set filetype=html.cshtml.razor]]
+-- vim.cmd [[autocmd BufNewFile,BufRead *.razor set filetype=html.cshtml.razor]]
 --
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
