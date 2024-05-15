@@ -378,6 +378,12 @@ require('lazy').setup({
           --  For example, in C this would take you to the header.
           map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
 
+          -- TODO: not working??
+          vim.keymap.set('i', '<C-Space>', function()
+            print 'signature help called'
+            vim.lsp.buf.signature_help()
+          end, { buffer = event.buf, desc = 'LSP: ' .. ' Signature help' })
+
           -- The following two autocommands are used to highlight references of the
           -- word under your cursor when your cursor rests there for a little while.
           --    See `:help CursorHold` for information about when this is executed
@@ -442,7 +448,13 @@ require('lazy').setup({
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
 
       local servers = {
-        clangd = {},
+        -- https://www.reddit.com/r/neovim/comments/16qzaiu/trying_to_get_around_warning_multiple_different/
+        clangd = {
+          cmd = {
+            'clangd',
+            '--offset-encoding=utf-16',
+          },
+        },
         -- pylsp = {},
         pyright = {
           settings = {
@@ -551,7 +563,8 @@ require('lazy').setup({
         -- Disable "format_on_save lsp_fallback" for languages that don't
         -- have a well standardized coding style. You can add additional
         -- languages here or re-enable it for the disabled ones.
-        local disable_filetypes = { c = true, cpp = true }
+        -- local disable_filetypes = { c = true, cpp = true }
+        local disable_filetypes = {}
         return {
           timeout_ms = 500,
           lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
@@ -817,8 +830,33 @@ require('lazy').setup({
 vim.keymap.set('n', '<leader>pv', vim.cmd.Ex)
 
 vim.keymap.set('n', '<leader>rp', function()
+  -- Save the current buffer
+  vim.cmd 'w'
+  -- Run the current python file
   vim.cmd '!python %'
 end, { desc = '[R]un the current [p]ython file.', noremap = true, silent = true })
+
+vim.keymap.set('n', '<leader>cc', function()
+  vim.cmd 'w'
+  vim.cmd 'make %:r'
+end, { desc = 'Compile current c++ file.' })
+
+vim.keymap.set('n', '<leader>cr', function()
+  -- Save the current buffer
+  vim.cmd 'w'
+  -- Compile the current file into an executable
+  vim.cmd 'make %:p:r'
+  local executable = vim.fn.expand '%:p:r'
+  -- Open a new terminal buffer and execute the generated executable
+  vim.cmd('terminal ' .. executable)
+  -- Execute the generated executable
+  -- vim.cmd('! ' .. executable)
+  -- vim.cmd('terminal ' .. executable)
+end, { desc = '[C]ompile current c++ file and [r]un it.' })
+
+-- Custom Keymaps
+vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
+vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
 
 -- vim.opt.tabstop = 4
 -- vim.opt.softtabstop = 4
