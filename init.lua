@@ -379,10 +379,15 @@ require('lazy').setup({
           map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
 
           -- TODO: not working??
-          vim.keymap.set('i', '<C-Space>', function()
-            print 'signature help called'
+          -- vim.keymap.set('i', '<C-@>', function()
+          --   print 'signature help called'
+          --   vim.lsp.buf.signature_help()
+          -- end, { buffer = event.buf, desc = 'LSP: ' .. ' Signature help' })
+
+          local opts = { buffer = event.buf }
+          vim.keymap.set('i', '<C-h>', function()
             vim.lsp.buf.signature_help()
-          end, { buffer = event.buf, desc = 'LSP: ' .. ' Signature help' })
+          end, opts)
 
           -- The following two autocommands are used to highlight references of the
           -- word under your cursor when your cursor rests there for a little while.
@@ -672,12 +677,12 @@ require('lazy').setup({
           --
           -- <c-l> will move you to the right of each of the expansion locations.
           -- <c-h> is similar, except moving you backwards.
-          ['<C-l>'] = cmp.mapping(function()
+          ['<C-j>'] = cmp.mapping(function()
             if luasnip.expand_or_locally_jumpable() then
               luasnip.expand_or_jump()
             end
           end, { 'i', 's' }),
-          ['<C-h>'] = cmp.mapping(function()
+          ['<C-k>'] = cmp.mapping(function()
             if luasnip.locally_jumpable(-1) then
               luasnip.jump(-1)
             end
