@@ -86,13 +86,13 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 -- vim.o.shellredir = '| Out-File -Encoding UTF8 %s'
 -- -- -- Set shell piping
 -- vim.o.shellpipe = '| Out-File -Encoding UTF8 %s'
-vim.opt.shell = 'pwsh'
-vim.opt.shellcmdflag =
-  '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;$PSStyle.OutputRendering = [System.Management.Automation.OutputRendering]::PlainText;'
-vim.opt.shellredir = '-RedirectStandardOutput %s -NoNewWindow -Wait'
-vim.opt.shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
-vim.opt.shellquote = ''
-vim.opt.shellxquote = ''
+-- vim.opt.shell = 'pwsh'
+-- vim.opt.shellcmdflag =
+--   '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;$PSStyle.OutputRendering = [System.Management.Automation.OutputRendering]::PlainText;'
+-- vim.opt.shellredir = '-RedirectStandardOutput %s -NoNewWindow -Wait'
+-- vim.opt.shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
+-- vim.opt.shellquote = ''
+-- vim.opt.shellxquote = ''
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
@@ -462,22 +462,22 @@ require('lazy').setup({
           },
         },
         -- pylsp = {},
-        pyright = {
-          settings = {
-            pyright = {
-              -- Using Ruff's import organizer
-              disableOrganizeImports = true,
-              disableTaggedHints = true,
-            },
-            python = {
-              analysis = {
-                -- Ignore all files for analysis to exclusively use Ruff for linting
-                ignore = { '*' },
-              },
-            },
-          },
-        },
-        ruff_lsp = {},
+        -- pyright = {
+        --   settings = {
+        --     pyright = {
+        --       -- Using Ruff's import organizer
+        --       disableOrganizeImports = true,
+        --       disableTaggedHints = true,
+        --     },
+        --     python = {
+        --       analysis = {
+        --         -- Ignore all files for analysis to exclusively use Ruff for linting
+        --         ignore = { '*' },
+        --       },
+        --     },
+        --   },
+        -- },
+        -- ruff_lsp = {},
         -- ruff = {},
         -- ruff_lsp = {
         --   on_attach = function(client, bufnr)
@@ -490,13 +490,13 @@ require('lazy').setup({
         omnisharp = {
           -- filetypes = { 'cs', 'vb', 'razor', 'cshtml' },
         },
-        powershell_es = {
-          bundle_path = require('mason-registry').get_package('powershell-editor-services'):get_install_path(),
-          filetypes = { 'ps1', 'psm1', 'psd1' },
-          init_options = {
-            enableProfileLoading = false,
-          },
-        },
+        -- powershell_es = {
+        --   bundle_path = require('mason-registry').get_package('powershell-editor-services'):get_install_path(),
+        --   filetypes = { 'ps1', 'psm1', 'psd1' },
+        --   init_options = {
+        --     enableProfileLoading = false,
+        --   },
+        -- },
 
         lua_ls = {
           -- cmd = {...},
