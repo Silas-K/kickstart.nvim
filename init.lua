@@ -668,7 +668,17 @@ require('lazy').setup({
           -- Manually trigger a completion from nvim-cmp.
           --  Generally you don't need this, because nvim-cmp will display
           --  completions whenever it has completion options available.
-          ['<C-Space>'] = cmp.mapping.complete {},
+          -- ['<C-Space>'] = cmp.mapping.complete {},
+
+          -- ['<C-Space>'] = cmp.mapping(function()
+          --   print 'Completion triggered'
+          --   cmp.mapping.complete {}
+          -- end, { 'i', 's' }),
+
+          ['<C-l>'] = cmp.mapping(function()
+            print 'Completion triggered'
+            cmp.complete {}
+          end, { 'i', 's' }),
 
           -- Think of <c-l> as moving to the right of your snippet expansion.
           --  So if you have a snippet that's like:
@@ -698,6 +708,14 @@ require('lazy').setup({
           { name = 'path' },
         },
       }
+
+      -- Setup up vim-dadbod
+      cmp.setup.filetype({ 'sql' }, {
+        sources = {
+          { name = 'vim-dadbod-completion' },
+          { name = 'buffer' },
+        },
+      })
     end,
   },
 
@@ -809,6 +827,7 @@ require('lazy').setup({
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
   { import = 'custom.plugins' },
+  { import = 'local' },
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
