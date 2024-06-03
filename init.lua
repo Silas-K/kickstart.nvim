@@ -882,6 +882,14 @@ vim.api.nvim_create_autocmd('FileType', {
       vim.cmd 'make'
     end, { desc = 'Compile current c++ file with make.' })
 
+    vim.keymap.set('n', '<leader>cg', function()
+      -- Save the current buffer
+      vim.cmd 'w'
+      -- Compile the current file with the makefile
+      vim.cmd 'make'
+      vim.cmd('terminal ' .. 'make run')
+    end, { desc = '[C]ompile current c++ file and [r]un it.' })
+
     vim.keymap.set('n', '<leader>cr', function()
       -- Save the current buffer
       vim.cmd 'w'
