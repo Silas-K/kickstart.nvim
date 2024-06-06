@@ -3,6 +3,18 @@
 --
 -- See the kickstart.nvim README for more information
 return {
+
+  {
+    'folke/tokyonight.nvim',
+    priority = 1000, -- Make sure to load this before all the other start plugins.
+    -- init = function()
+    --   vim.cmd.colorscheme 'tokyonight-night'
+    --
+    --   -- You can configure highlights by doing something like:
+    --   vim.cmd.hi 'Comment gui=none'
+    -- end,
+  },
+
   {
     'tomasiser/vim-code-dark',
     priority = 1000, -- Make sure to load this before all the other start plugins.
@@ -16,12 +28,12 @@ return {
   {
     'rose-pine/neovim',
     priority = 1000, -- Make sure to load this before all the other start plugins.
-    -- init = function()
-    --   vim.cmd.colorscheme 'rose-pine'
-    --
-    --   -- You can configure highlights by doing something like:
-    --   vim.cmd.hi 'Comment gui=none'
-    -- end,
+    init = function()
+      vim.cmd.colorscheme 'rose-pine-moon'
+
+      -- You can configure highlights by doing something like:
+      vim.cmd.hi 'Comment gui=none'
+    end,
   },
   {
     'doums/darcula',

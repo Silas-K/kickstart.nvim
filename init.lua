@@ -581,6 +581,7 @@ require('lazy').setup({
         -- Conform can also run multiple formatters sequentially
         -- python = { 'black' },
         -- python = { 'isort', 'black' },
+        json = { 'jq' },
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
@@ -740,17 +741,6 @@ require('lazy').setup({
           { name = 'buffer' },
         },
       })
-    end,
-  },
-
-  {
-    'folke/tokyonight.nvim',
-    priority = 1000, -- Make sure to load this before all the other start plugins.
-    init = function()
-      vim.cmd.colorscheme 'tokyonight-night'
-
-      -- You can configure highlights by doing something like:
-      vim.cmd.hi 'Comment gui=none'
     end,
   },
 
