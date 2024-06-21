@@ -20,6 +20,10 @@ return {
     vim.keymap.set('n', '<leader>3', navigate(3), { desc = 'Navigate to harpoon file 3' })
     vim.keymap.set('n', '<leader>4', navigate(4), { desc = 'Navigate to harpoon file 4' })
     vim.keymap.set('n', '<leader>5', navigate(5), { desc = 'Navigate to harpoon file 5' })
+    vim.keymap.set('n', '<leader>6', navigate(6), { desc = 'Navigate to harpoon file 6' })
+    vim.keymap.set('n', '<leader>7', navigate(7), { desc = 'Navigate to harpoon file 7' })
+    vim.keymap.set('n', '<leader>8', navigate(8), { desc = 'Navigate to harpoon file 8' })
+    vim.keymap.set('n', '<leader>9', navigate(9), { desc = 'Navigate to harpoon file 9' })
 
     -- vim.keymap.set('n', '<leader>hh', navigate(1), { desc = 'Navigate to harpoon file 1' })
     -- vim.keymap.set('n', '<leader>hj', navigate(2), { desc = 'Navigate to harpoon file 2' })
