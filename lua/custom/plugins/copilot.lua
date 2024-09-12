@@ -47,6 +47,6 @@ return {
       server_opts_overrides = {},
     }
 
-    vim.cmd ':Copilot disable'
+    -- vim.cmd ':Copilot disable'
   end,
 }
