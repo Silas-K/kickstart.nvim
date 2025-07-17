@@ -897,7 +897,7 @@ vim.api.nvim_create_autocmd('FileType', {
       -- Save the current buffer
       vim.cmd 'w'
       -- Run the current python file
-      vim.cmd '!python %'
+      vim.cmd('term python "' .. vim.fn.expand '%:p' .. '"')
     end, { desc = '[R]un the current [p]ython file.', noremap = true, silent = true })
   end,
 })
